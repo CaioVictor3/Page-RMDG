@@ -172,3 +172,37 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+// Modern Reveal Observer
+document.addEventListener('DOMContentLoaded', function() {
+    const revealOptions = {
+        threshold: 0.12,
+        rootMargin: '0px 0px -10% 0px'
+    };
+
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                revealObserver.unobserve(entry.target);
+            }
+        });
+    }, revealOptions);
+
+    // Optional: auto-stagger within containers
+    document.querySelectorAll('[data-reveal-stagger]').forEach(container => {
+        const children = container.querySelectorAll('[data-reveal]');
+        children.forEach((el, idx) => {
+            el.style.setProperty('--reveal-index', idx.toString());
+        });
+    });
+
+    document.querySelectorAll('[data-reveal]').forEach(el => revealObserver.observe(el));
+
+    // If already in viewport on load
+    document.querySelectorAll('[data-reveal]').forEach(el => {
+        const rect = el.getBoundingClientRect();
+        const inView = rect.top < window.innerHeight && rect.bottom >= 0;
+        if (inView) el.classList.add('is-visible');
+    });
+});
+

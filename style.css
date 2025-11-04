@@ -6,6 +6,8 @@
     --dark-color: #212529;
     --animation-duration: 0.8s;
     --animation-delay: 0.2s;
+    --reveal-duration: 600ms;
+    --reveal-ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* Scroll Animations */
@@ -102,6 +104,30 @@ html {
     scroll-behavior: smooth;
 }
 
+/* Global Background */
+html, body {
+    min-height: 100%;
+}
+
+body {
+    background:
+        radial-gradient(1200px 600px at 10% -10%, rgba(13,110,253,0.10), transparent 60%),
+        radial-gradient(900px 500px at 90% 10%, rgba(111,66,193,0.10), transparent 60%),
+        radial-gradient(800px 400px at 50% 110%, rgba(13,110,253,0.08), transparent 60%),
+        linear-gradient(135deg, #0b1220 0%, #0f1e3a 45%, #0b1220 100%);
+    background-attachment: fixed, fixed, fixed, fixed;
+    color: #e9ecef; /* alto contraste sobre o fundo escuro */
+}
+
+/* Tipografia: cores e contraste no tema escuro */
+h1, h2, h3, h4, h5, h6 {
+    color: #f2f5f9;
+}
+
+p, li { color: #d8e1ec; }
+
+.lead { color: #d7e2f1; }
+
 /* Header Styles */
 header {
     z-index: 1000;
@@ -171,6 +197,10 @@ header nav {
     font-size: 1.3rem;
     transition: all 0.3s ease;
 }
+
+/* Links padrão sobre fundo escuro */
+a { color: #8ab4ff; }
+a:hover { color: #b3ccff; }
 
 .navbar-nav .nav-link:hover {
     color: #fff !important;
@@ -370,7 +400,18 @@ section {
 .card {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     border-radius: 10px;
+    background-color: #ffffff; /* mantém legibilidade alta nos cartões */
+    color: #212529;            /* texto escuro dentro dos cards */
 }
+
+.card h1, .card h2, .card h3, .card h4, .card h5, .card h6 { color: #1b1f23 !important; }
+.card .lead { color: #343a40 !important; }
+.card .card-title { color: #1b1f23 !important; }
+.card .card-text { color: #1f2630 !important; }
+.card p { color: #1f2630 !important; }
+.card li { color: #1f2630 !important; }
+.card a { color: #0d6efd !important; }
+.card a:hover { color: #0b5ed7 !important; }
 
 .card:hover {
     transform: translateY(-5px);
@@ -479,6 +520,32 @@ footer .text-muted {
     color: #adb5bd !important;
 }
 
+/* Ajustes de contraste gerais */
+.text-muted { color: #bcc7d4 !important; }
+.card .text-muted { color: #495057 !important; }
+.bg-light .text-muted { color: #c9d1d9 !important; }
+
+/* Ícones em seções escuras mantêm bom contraste */
+.fa-3x, .fa-4x { color: var(--primary-color); filter: drop-shadow(0 1px 2px rgba(0,0,0,0.25)); }
+
+/* Links de footer e áreas escuras */
+footer a { color: #cfe1ff; }
+footer a:hover { color: #ffffff; }
+
+/* --- Card content contrast fix (reforço) --- */
+.card .card-text,
+.card .card-text.text-muted,
+.card p,
+.card li,
+#atuacao .card .card-text,
+#servicos .card .card-text,
+#publico .card .card-text,
+#contato .card .card-text {
+    color: #1f2630 !important;
+}
+
+.card .text-muted { color: #4a5562 !important; }
+
 /* Responsive Adjustments */
 @media (max-width: 768px) {
     .hero-section {
@@ -522,12 +589,15 @@ footer .text-muted {
 
 #publico .nav-tabs .nav-link {
     white-space: normal; /* permite quebra de linha no texto */
+    color: #e8eef7;           /* mais forte no tema escuro */
+    font-weight: 600;
 }
 
 @media (max-width: 991px) {
     #publico .nav-tabs .nav-link {
         font-size: 0.95rem;
         padding: 10px 14px;
+        color: #eef3fb;       /* reforço em telas menores */
     }
 }
 
@@ -535,7 +605,18 @@ footer .text-muted {
     #publico .nav-tabs .nav-link {
         font-size: 0.85rem;
         padding: 8px 12px;
+        color: #ffffff;
     }
+}
+
+/* Estado ativo e hover com maior contraste */
+#publico .nav-tabs .nav-link:hover {
+    color: #ffffff;
+}
+
+#publico .nav-tabs .nav-link.active {
+    color: #ffffff;
+    border-bottom-color: #ffffff;
 }
 
 /* Animations */
@@ -554,15 +635,70 @@ footer .text-muted {
     animation: fadeInUp 0.6s ease-out;
 }
 
+/* Modern Reveal Animations */
+[data-reveal] {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+    filter: blur(8px);
+    transition:
+        opacity var(--reveal-duration) var(--reveal-ease),
+        transform var(--reveal-duration) var(--reveal-ease),
+        filter calc(var(--reveal-duration) * 0.8) var(--reveal-ease);
+    will-change: opacity, transform, filter;
+}
+
+/* Direction variants */
+[data-reveal="up"]    { transform: translateY(18px) scale(0.98); }
+[data-reveal="down"]  { transform: translateY(-18px) scale(0.98); }
+[data-reveal="left"]  { transform: translateX(24px) scale(0.98); }
+[data-reveal="right"] { transform: translateX(-24px) scale(0.98); }
+[data-reveal="zoom"]  { transform: scale(0.92); }
+[data-reveal="fade"]  { transform: none; }
+
+[data-reveal].is-visible {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+}
+
+/* Stagger support: set via --reveal-index or container attribute */
+[data-reveal] {
+    transition-delay: calc(var(--reveal-index, 0) * 60ms);
+}
+
+/* Reduced motion respects user preferences */
+@media (prefers-reduced-motion: reduce) {
+    [data-reveal] {
+        opacity: 1 !important;
+        transform: none !important;
+        filter: none !important;
+        transition: none !important;
+    }
+}
+
 /* Icon Styles */
 .fa-3x, .fa-4x {
     color: var(--primary-color);
 }
 
-/* Background Colors */
+/* Section Backgrounds (avoid plain white screen) */
 .bg-light {
-    background-color: #f8f9fa !important;
+    background: linear-gradient(180deg, #0f1626 0%, #0c1423 100%) !important;
+    color: #e9ecef;
 }
+
+.bg-light h1,
+.bg-light h2,
+.bg-light h3,
+.bg-light h4,
+.bg-light h5,
+.bg-light h6 { color: #ffffff; }
+
+.bg-light .text-muted { color: #c9d1d9 !important; }
+.bg-light .lead { color: #d5dde7; }
+
+/* Optional: hairlines over dark */
+.bg-light hr { background-color: rgba(255,255,255,0.15); }
 
 /* Remover completamente a barrinha sob os ícones/links do header */
 .navbar-nav .nav-link::after,
