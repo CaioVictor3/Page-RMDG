@@ -114,8 +114,9 @@ header nav {
 }
 
 .logo-header {
-    max-height: 60px;
+    max-height: 80px;
     width: auto;
+    height: auto;
 }
 
 .navbar-brand {
@@ -242,7 +243,11 @@ header nav {
     }
     
     .logo-header {
-        max-height: 50px;
+        max-height: 60px;
+    }
+    
+    .logo-footer {
+        max-height: 60px;
     }
 }
 
@@ -380,9 +385,11 @@ footer {
 }
 
 .logo-footer {
-    filter: brightness(0) invert(1);
-    max-height: 60px;
+    max-height: 80px;
     width: auto;
+    height: auto;
+    display: block;
+    object-fit: contain;
 }
 
 footer h5 {
