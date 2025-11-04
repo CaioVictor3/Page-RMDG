@@ -763,8 +763,25 @@ footer .text-muted {
 .fa-3x, .fa-4x { color: var(--primary-color); filter: drop-shadow(0 1px 2px rgba(0,0,0,0.25)); }
 
 /* Links de footer e áreas escuras */
-footer a { color: #cfe1ff; }
-footer a:hover { color: #ffffff; }
+footer a { 
+    color: #cfe1ff; 
+    transition: color 0.3s ease;
+}
+footer a:hover { 
+    color: #ffffff; 
+    text-decoration: underline;
+}
+
+/* Links de contato no footer - mesmo estilo da seção contato */
+footer .text-muted a {
+    color: #adb5bd !important;
+    transition: color 0.3s ease;
+}
+
+footer .text-muted a:hover {
+    color: #ffffff !important;
+    text-decoration: underline;
+}
 
 /* --- Card content contrast fix (reforço) --- */
 .card .card-text,
