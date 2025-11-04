@@ -1,0 +1,17 @@
+# Tipo de commit (feat, fix, docs, style, refactor, test, chore)
+# Descrição curta e clara em português
+
+# Descrição detalhada (opcional):
+# - O que foi alterado
+# - Por que foi alterado
+# - Como foi implementado
+
+# Exemplos:
+# feat: adiciona nova funcionalidade de login
+# fix: corrige bug na validação de formulário
+# docs: atualiza documentação da API
+# style: ajusta formatação do código
+# refactor: reorganiza estrutura de componentes
+# test: adiciona testes unitários
+# chore: atualiza dependências
+
