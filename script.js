@@ -23,34 +23,48 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Highlight active section in navigation
-    function highlightActiveSection() {
-        const sections = document.querySelectorAll('section[id]');
-        const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
-        
+    // Highlight active section in navigation (rAF-coalesced)
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+    const header = document.querySelector('header');
+    let ticking = false;
+
+    function onScrollUpdate() {
+        // Toggle header shadow class
+        if (header) {
+            if (window.scrollY > 100) header.classList.add('scrolled');
+            else header.classList.remove('scrolled');
+        }
+
+        // Figure out current section
         let currentSection = '';
-        
         sections.forEach(section => {
-            const sectionTop = section.getBoundingClientRect().top;
-            const sectionHeight = section.offsetHeight;
-            
-            if (sectionTop <= 100 && sectionTop + sectionHeight > 100) {
+            const rect = section.getBoundingClientRect();
+            if (rect.top <= 100 && rect.bottom > 100) {
                 currentSection = section.getAttribute('id');
             }
         });
-        
+
+        // Update nav link active state
         navLinks.forEach(link => {
-            link.classList.remove('active');
             const href = link.getAttribute('href');
-            if (href === `#${currentSection}`) {
-                link.classList.add('active');
-            }
+            if (href === `#${currentSection}`) link.classList.add('active');
+            else link.classList.remove('active');
         });
     }
 
-    // Update active section on scroll
-    window.addEventListener('scroll', highlightActiveSection);
-    highlightActiveSection(); // Initial call
+    function onScroll() {
+        if (!ticking) {
+            window.requestAnimationFrame(() => {
+                onScrollUpdate();
+                ticking = false;
+            });
+            ticking = true;
+        }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScrollUpdate(); // Initial call
 
     // Update current year in footer
     const currentYear = new Date().getFullYear();
@@ -100,15 +114,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Add scroll effect to navbar
-window.addEventListener('scroll', function() {
-    const header = document.querySelector('header');
-    if (window.scrollY > 100) {
-        header.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
-    } else {
-        header.style.boxShadow = '0 2px 5px rgba(0,0,0,0.05)';
-    }
-});
+// (migrated into rAF-coalesced scroll handler above)
 
 // Scroll Animation with Intersection Observer
 document.addEventListener('DOMContentLoaded', function() {
