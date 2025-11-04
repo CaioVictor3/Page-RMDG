@@ -7,7 +7,7 @@
     --animation-duration: 0.8s;
     --animation-delay: 0.2s;
     --reveal-duration: 600ms;
-    --reveal-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --reveal-ease: ease-out;
 }
 
 /* Scroll Animations */
@@ -376,19 +376,253 @@ a:hover { color: #b3ccff; }
     height: 100%;
     display: flex;
     align-items: center;
+    /* Gradiente moderno expandido - unifica visualmente com a row */
+    background: 
+        /* Gradiente radial superior - azul indigo */
+        radial-gradient(ellipse 90% 60% at 50% 0%, rgba(79, 70, 229, 0.45) 0%, rgba(99, 102, 241, 0.25) 30%, transparent 70%),
+        /* Gradiente radial inferior - roxo */
+        radial-gradient(ellipse 70% 50% at 50% 100%, rgba(139, 92, 246, 0.35) 0%, rgba(167, 139, 250, 0.20) 40%, transparent 70%),
+        /* Gradiente linear vertical - transição suave de cima para baixo */
+        linear-gradient(180deg, 
+            rgba(11, 18, 32, 0.92) 0%,
+            rgba(30, 41, 59, 0.88) 25%,
+            rgba(15, 30, 58, 0.82) 50%,
+            rgba(30, 41, 59, 0.85) 75%,
+            rgba(11, 18, 32, 0.90) 100%);
+    opacity: 0;
+    animation: heroFadeIn 1.2s ease-out 0.3s forwards;
+    /* Garante que cubra toda a viewport */
+    min-height: 100vh;
 }
 
+/* Animação de fade-in elegante para hero-overlay */
+@keyframes heroFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Melhora legibilidade do texto na hero section - unificado com o gradiente */
+.hero-section .hero-overlay h1,
+.hero-section .hero-overlay .lead,
+.hero-section .hero-overlay p,
+.hero-section .hero-overlay .col-lg-8 {
+    color: #ffffff !important;
+    position: relative;
+    z-index: 4;
+}
+
+.hero-section .hero-overlay h1 {
+    text-shadow: 
+        0 3px 12px rgba(0, 0, 0, 0.7),
+        0 1px 4px rgba(0, 0, 0, 0.9),
+        0 0 40px rgba(99, 102, 241, 0.3);
+}
+
+.hero-section .hero-overlay .lead,
+.hero-section .hero-overlay p {
+    text-shadow: 
+        0 2px 10px rgba(0, 0, 0, 0.7),
+        0 1px 3px rgba(0, 0, 0, 0.9);
+}
+
+/* Coluna dentro da row - totalmente transparente */
+.hero-overlay .col-lg-8 {
+    background: transparent !important;
+    position: relative;
+    z-index: 5;
+}
+
+/* Garantir que elementos pais do lead também sejam transparentes */
+.hero-overlay .col-lg-8 > * {
+    background: transparent !important;
+}
+
+/* Destaque especial para o primeiro parágrafo (lead) - fundo totalmente transparente */
+.hero-section .hero-overlay .lead {
+    font-size: 1.35rem;
+    line-height: 1.7;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    color: #ffffff !important;
+    text-shadow: 
+        0 3px 12px rgba(0, 0, 0, 0.8),
+        0 1px 4px rgba(0, 0, 0, 0.9);
+    position: relative;
+    padding: 20px 0;
+    /* Garantir fundo totalmente transparente */
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
+/* Remover qualquer pseudo-elemento que crie fundo claro */
+.hero-section .hero-overlay .lead::before,
+.hero-section .hero-overlay .lead::after {
+    content: none !important;
+    display: none !important;
+}
+
+/* Container do conteúdo com backdrop blur sutil */
+.hero-overlay .container {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+}
+
+/* Row dentro do hero-overlay - totalmente integrada ao gradiente */
+.hero-overlay .row {
+    background: transparent !important;
+    position: relative;
+    z-index: 3;
+    /* Remove qualquer padding/margin que possa criar cortes visuais */
+    margin-left: 0;
+    margin-right: 0;
+}
+
+/* Efeito de brilho sutil centralizado na área do conteúdo - sem fundo branco */
+.hero-overlay .row::before {
+    content: '';
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    max-width: 900px;
+    height: calc(100% + 80px);
+    /* Remover branco - usar apenas cores escuras com transparência */
+    background: 
+        radial-gradient(ellipse at center, 
+            rgba(99, 102, 241, 0.08) 0%,
+            rgba(139, 92, 246, 0.05) 40%,
+            transparent 70%);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    border-radius: 30px;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+/* Container com efeito de profundidade - sem fundo branco */
+.hero-overlay .container::before {
+    content: '';
+    position: absolute;
+    top: -30px;
+    left: -30px;
+    right: -30px;
+    bottom: -30px;
+    /* Remover branco - usar apenas cores escuras/coloridas */
+    background: 
+        radial-gradient(ellipse at center, 
+            rgba(99, 102, 241, 0.04) 0%,
+            rgba(139, 92, 246, 0.03) 30%,
+            transparent 70%);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    border-radius: 25px;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.4;
+}
+
+/* Botão "Conheça Nossas Soluções" - Estilização moderna e destacada */
 .cta-button {
-    padding: 12px 40px;
-    font-size: 1.1rem;
+    padding: 16px 48px;
+    font-size: 1.15rem;
+    font-weight: 600;
     border-radius: 50px;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    z-index: 6;
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+    letter-spacing: 0.5px;
+    
+    /* Gradiente moderno azul/roxo */
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #6366f1 100%);
+    background-size: 200% 200%;
+    color: #ffffff !important;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    
+    /* Sombras múltiplas para profundidade */
+    box-shadow: 
+        0 4px 20px rgba(99, 102, 241, 0.4),
+        0 2px 10px rgba(139, 92, 246, 0.3),
+        0 0 0 0 rgba(99, 102, 241, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    
+    /* Efeito de brilho sutil */
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
 }
 
+/* Efeito de brilho animado no fundo */
+.cta-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.3), 
+        transparent);
+    transition: left 0.6s ease;
+    z-index: 1;
+}
+
+/* Hover - Efeito destacado e interativo */
 .cta-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(13, 110, 253, 0.4);
+    transform: translateY(-3px) scale(1.02);
+    background-position: 100% 0;
+    
+    /* Sombras mais intensas no hover */
+    box-shadow: 
+        0 8px 30px rgba(99, 102, 241, 0.6),
+        0 4px 15px rgba(139, 92, 246, 0.5),
+        0 0 20px rgba(99, 102, 241, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    
+    border-color: rgba(255, 255, 255, 0.4);
+    color: #ffffff !important;
+}
+
+/* Animação do brilho no hover */
+.cta-button:hover::before {
+    left: 100%;
+}
+
+/* Efeito de onda ao clicar */
+.cta-button:active {
+    transform: translateY(-1px) scale(0.98);
+    box-shadow: 
+        0 4px 15px rgba(99, 102, 241, 0.5),
+        0 2px 8px rgba(139, 92, 246, 0.4),
+        inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Foco para acessibilidade */
+.cta-button:focus {
+    outline: none;
+    box-shadow: 
+        0 4px 20px rgba(99, 102, 241, 0.4),
+        0 2px 10px rgba(139, 92, 246, 0.3),
+        0 0 0 4px rgba(99, 102, 241, 0.3);
+}
+
+/* Texto do botão acima do efeito de brilho */
+.cta-button span,
+.cta-button {
+    position: relative;
+    z-index: 2;
 }
 
 /* Section Spacing */
@@ -552,6 +786,69 @@ footer a:hover { color: #ffffff; }
         background-attachment: scroll;
     }
     
+    /* Ajustes do hero-overlay para mobile - gradiente unificado */
+    .hero-overlay {
+        background: 
+            /* Gradiente radial superior - mais intenso no mobile */
+            radial-gradient(ellipse 100% 70% at 50% 0%, rgba(79, 70, 229, 0.5) 0%, rgba(99, 102, 241, 0.3) 30%, transparent 70%),
+            /* Gradiente radial inferior */
+            radial-gradient(ellipse 85% 60% at 50% 100%, rgba(139, 92, 246, 0.4) 0%, rgba(167, 139, 250, 0.25) 40%, transparent 70%),
+            /* Gradiente linear vertical - mantém continuidade */
+            linear-gradient(180deg, 
+                rgba(11, 18, 32, 0.95) 0%,
+                rgba(30, 41, 59, 0.90) 25%,
+                rgba(15, 30, 58, 0.85) 50%,
+                rgba(30, 41, 59, 0.88) 75%,
+                rgba(11, 18, 32, 0.92) 100%);
+    }
+    
+    /* Row em mobile - mantém integração */
+    .hero-overlay .row::before {
+        width: 95%;
+        top: -20px;
+        height: calc(100% + 40px);
+        opacity: 0.6;
+    }
+    
+    .hero-section .hero-overlay h1 {
+        text-shadow: 
+            0 2px 10px rgba(0, 0, 0, 0.9),
+            0 1px 3px rgba(0, 0, 0, 1),
+            0 0 30px rgba(99, 102, 241, 0.4);
+    }
+    
+    .hero-section .hero-overlay .lead {
+        font-size: 1.15rem;
+        padding: 15px 0;
+        /* Remover brilho branco - apenas sombra escura para contraste */
+        text-shadow: 
+            0 2px 8px rgba(0, 0, 0, 0.9),
+            0 1px 3px rgba(0, 0, 0, 1);
+        /* Garantir fundo transparente no mobile também */
+        background: transparent !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+    }
+    
+    .hero-overlay .container::before {
+        top: -15px;
+        left: -15px;
+        right: -15px;
+        bottom: -15px;
+        opacity: 0.5;
+    }
+    
+    /* Botão CTA responsivo para mobile */
+    .cta-button {
+        padding: 14px 36px;
+        font-size: 1rem;
+        letter-spacing: 0.3px;
+    }
+    
+    .cta-button:hover {
+        transform: translateY(-2px) scale(1.01);
+    }
+    
     .display-3 {
         font-size: 2rem;
     }
@@ -579,44 +876,174 @@ footer a:hover { color: #ffffff; }
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    align-items: stretch; /* Garante que todos os itens tenham a mesma altura */
     gap: 8px;
+    /* Remover barra branca abaixo dos botões */
+    border-bottom: none !important;
 }
 
 #publico .nav-tabs .nav-item {
     flex: 1 1 48%;
     max-width: 48%;
+    display: flex;
+    min-width: 0; /* Permite que os itens encolham igualmente */
 }
 
 #publico .nav-tabs .nav-link {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 60px; /* Altura mínima consistente */
     white-space: normal; /* permite quebra de linha no texto */
     color: #e8eef7;           /* mais forte no tema escuro */
     font-weight: 600;
+    text-align: center;
+    /* Remover todas as bordas inferiores */
+    border-bottom: none !important;
+    border: 2px solid transparent !important;
+    border-radius: 12px;
+    padding: 12px 20px;
+    background: rgba(30, 41, 59, 0.4);
+    /* Transições suaves para todos os estados */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    position: relative;
+    overflow: hidden;
+    /* Garantir que o texto quebre corretamente */
+    word-wrap: break-word;
+    hyphens: auto;
+}
+
+/* Efeito de brilho sutil no estado padrão */
+#publico .nav-tabs .nav-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.05), 
+        transparent);
+    transition: left 0.5s ease;
+    z-index: 0;
+}
+
+#publico .nav-tabs .nav-link:hover::before {
+    left: 100%;
+}
+
+#publico .nav-tabs .nav-link span,
+#publico .nav-tabs .nav-link {
+    position: relative;
+    z-index: 1;
 }
 
 @media (max-width: 991px) {
+    /* Garantir que todos os botões tenham o mesmo tamanho */
+    #publico .nav-tabs .nav-item {
+        flex: 1 1 48%;
+        min-width: 0; /* Permite que encolham igualmente */
+    }
+    
     #publico .nav-tabs .nav-link {
-        font-size: 0.95rem;
-        padding: 10px 14px;
-        color: #eef3fb;       /* reforço em telas menores */
+        font-size: 0.9rem;
+        padding: 12px 14px;
+        color: #eef3fb;
+        min-height: 65px; /* Altura mínima consistente em tablets */
+        line-height: 1.4;
+    }
+    
+    /* Ajustar escala no mobile para não ficar muito grande */
+    #publico .nav-tabs .nav-link.active {
+        transform: scale(1.01);
+        min-height: 65px; /* Manter altura consistente mesmo no active */
     }
 }
 
 @media (max-width: 576px) {
+    /* Forçar mesmo tamanho para todos os botões em mobile */
+    #publico .nav-tabs .nav-item {
+        flex: 1 1 48%;
+        min-width: 0;
+        display: flex;
+    }
+    
     #publico .nav-tabs .nav-link {
-        font-size: 0.85rem;
-        padding: 8px 12px;
+        font-size: 0.8rem;
+        padding: 10px 12px;
         color: #ffffff;
+        border-radius: 10px;
+        min-height: 70px; /* Altura mínima fixa em mobile */
+        line-height: 1.3;
+        /* Garantir que o texto seja centralizado e quebre bem */
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    #publico .nav-tabs .nav-link.active {
+        transform: scale(1.01);
+        min-height: 70px; /* Manter altura igual mesmo no active */
+        box-shadow: 
+            0 4px 15px rgba(99, 102, 241, 0.5),
+            0 2px 8px rgba(139, 92, 246, 0.4),
+            0 0 0 2px rgba(99, 102, 241, 0.2);
+    }
+    
+    #publico .nav-tabs .nav-link:hover {
+        transform: translateY(-1px);
+        min-height: 70px; /* Manter altura no hover */
     }
 }
 
-/* Estado ativo e hover com maior contraste */
+/* Estado hover - feedback visual ao passar o mouse */
 #publico .nav-tabs .nav-link:hover {
-    color: #ffffff;
+    color: #ffffff !important;
+    background: rgba(99, 102, 241, 0.3) !important;
+    border: 2px solid rgba(99, 102, 241, 0.5) !important;
+    transform: translateY(-2px);
+    box-shadow: 
+        0 4px 12px rgba(99, 102, 241, 0.3),
+        0 2px 6px rgba(139, 92, 246, 0.2);
 }
 
+/* Estado ativo - destaque visual claro e destacado */
 #publico .nav-tabs .nav-link.active {
-    color: #ffffff;
-    border-bottom-color: #ffffff;
+    color: #ffffff !important;
+    /* Gradiente moderno azul/roxo para o botão ativo */
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%) !important;
+    border: 2px solid rgba(255, 255, 255, 0.3) !important;
+    /* Sombra e ring para feedback visual */
+    box-shadow: 
+        0 6px 20px rgba(99, 102, 241, 0.5),
+        0 4px 12px rgba(139, 92, 246, 0.4),
+        0 0 0 3px rgba(99, 102, 241, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    /* Animação de scale sutil */
+    transform: scale(1.02);
+    font-weight: 700;
+    /* Animação ao selecionar (transição suave) */
+    animation: tabSelect 0.3s ease-out;
+}
+
+@keyframes tabSelect {
+    0% {
+        transform: scale(0.98);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1.02);
+    }
+}
+
+/* Remover efeito de brilho no estado ativo */
+#publico .nav-tabs .nav-link.active::before {
+    display: none;
 }
 
 /* Animations */
@@ -635,43 +1062,58 @@ footer a:hover { color: #ffffff; }
     animation: fadeInUp 0.6s ease-out;
 }
 
-/* Modern Reveal Animations */
-[data-reveal] {
+/* Modern Slide-In Animations - Lateral e Fluida */
+[data-slide-in] {
     opacity: 0;
-    transform: translateY(16px) scale(0.98);
-    filter: blur(8px);
+    transform: translateX(0);
     transition:
-        opacity var(--reveal-duration) var(--reveal-ease),
-        transform var(--reveal-duration) var(--reveal-ease),
-        filter calc(var(--reveal-duration) * 0.8) var(--reveal-ease);
-    will-change: opacity, transform, filter;
+        opacity 0.7s ease-out,
+        transform 0.7s ease-out;
+    will-change: opacity, transform;
 }
 
-/* Direction variants */
-[data-reveal="up"]    { transform: translateY(18px) scale(0.98); }
-[data-reveal="down"]  { transform: translateY(-18px) scale(0.98); }
-[data-reveal="left"]  { transform: translateX(24px) scale(0.98); }
-[data-reveal="right"] { transform: translateX(-24px) scale(0.98); }
-[data-reveal="zoom"]  { transform: scale(0.92); }
-[data-reveal="fade"]  { transform: none; }
+/* Variantes de direção lateral */
+[data-slide-in="left"] {
+    transform: translateX(-60px);
+}
 
-[data-reveal].is-visible {
-    opacity: 1;
+[data-slide-in="right"] {
+    transform: translateX(60px);
+}
+
+[data-slide-in="up"] {
+    transform: translateY(30px);
+}
+
+[data-slide-in="down"] {
+    transform: translateY(-30px);
+}
+
+[data-slide-in="fade"] {
     transform: none;
-    filter: blur(0);
 }
 
-/* Stagger support: set via --reveal-index or container attribute */
-[data-reveal] {
-    transition-delay: calc(var(--reveal-index, 0) * 60ms);
+/* Estado visível - anima para o centro */
+[data-slide-in].is-visible {
+    opacity: 1;
+    transform: translate(0, 0);
 }
 
-/* Reduced motion respects user preferences */
+/* Stagger automático baseado no índice - aplicado separadamente */
+[data-slide-in] {
+    transition-delay: calc(var(--slide-index, 0) * 100ms);
+}
+
+/* Ajuste de duração global */
+[data-slide-in] {
+    transition-duration: 0.7s;
+}
+
+/* Reduced motion - respeita preferências do usuário */
 @media (prefers-reduced-motion: reduce) {
-    [data-reveal] {
+    [data-slide-in] {
         opacity: 1 !important;
         transform: none !important;
-        filter: none !important;
         transition: none !important;
     }
 }

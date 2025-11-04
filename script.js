@@ -172,37 +172,123 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Modern Reveal Observer
+// Componente Reutilizável: SlideInOnScroll
+// Animações laterais fluidas com fade-in e stagger automático
 document.addEventListener('DOMContentLoaded', function() {
-    const revealOptions = {
-        threshold: 0.12,
-        rootMargin: '0px 0px -10% 0px'
-    };
+    
+    /**
+     * Componente SlideInOnScroll - Animações laterais fluidas
+     * @param {Object} options - Configurações opcionais
+     */
+    function SlideInOnScroll(options) {
+        const defaultOptions = {
+            selector: '[data-slide-in]',
+            containerSelector: '[data-slide-stagger]',
+            threshold: 0.15,
+            rootMargin: '0px 0px -8% 0px',
+            staggerDelay: 100, // ms entre cada elemento
+            duration: 700, // ms
+            autoDetectAlternate: true // detecta pares/ímpares automaticamente
+        };
+        const cfg = Object.assign({}, defaultOptions, options || {});
 
-    const revealObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
-                revealObserver.unobserve(entry.target);
+        // Intersection Observer para detectar entrada/saída do viewport
+        // Ajustado para funcionar em ambas as direções (cima/baixo)
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Sempre adiciona quando entra no viewport (qualquer direção)
+                    entry.target.classList.add('is-visible');
+                } else {
+                    // Remove quando sai completamente do viewport
+                    entry.target.classList.remove('is-visible');
+                }
+            });
+        }, { 
+            threshold: cfg.threshold, 
+            rootMargin: '0px 0px -5% 0px' // Margem menor para capturar melhor entrada por ambos os lados
+        });
+
+        // Aplica stagger automático em containers
+        document.querySelectorAll(cfg.containerSelector).forEach(container => {
+            const children = Array.from(container.querySelectorAll(cfg.selector));
+            children.forEach((el, idx) => {
+                el.style.setProperty('--slide-index', idx.toString());
+            });
+        });
+
+        // Detecta elementos pares/ímpares para alternar left/right
+        // IMPORTANTE: Fazer antes de observar elementos
+        if (cfg.autoDetectAlternate) {
+            document.querySelectorAll('.row').forEach(row => {
+                const cards = Array.from(row.querySelectorAll('.card'));
+                cards.forEach((card, idx) => {
+                    // Sempre aplica, mesmo se já tiver atributo (para garantir consistência)
+                    // Pares vêm da esquerda, ímpares da direita
+                    card.setAttribute('data-slide-in', idx % 2 === 0 ? 'left' : 'right');
+                    card.style.setProperty('--slide-index', idx.toString());
+                });
+            });
+        }
+
+        // Observa todos os elementos desde o início
+        // O observer principal gerencia tanto estado inicial quanto scroll contínuo
+        const allElements = document.querySelectorAll(cfg.selector);
+        
+        // Primeiro, verifica estado inicial rapidamente
+        allElements.forEach(el => {
+            const rect = el.getBoundingClientRect();
+            const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+            // Verifica se está visível no viewport (com margem de 100px para capturar elementos próximos)
+            const isVisible = rect.top < windowHeight + 100 && rect.bottom > -100;
+            if (isVisible) {
+                el.classList.add('is-visible');
             }
         });
-    }, revealOptions);
+        
+        // Depois observa todos continuamente para detectar entrada/saída
+        allElements.forEach(el => {
+            io.observe(el);
+        });
 
-    // Optional: auto-stagger within containers
-    document.querySelectorAll('[data-reveal-stagger]').forEach(container => {
-        const children = container.querySelectorAll('[data-reveal]');
-        children.forEach((el, idx) => {
-            el.style.setProperty('--reveal-index', idx.toString());
+        return { 
+            observe: (el) => io.observe(el),
+            unobserve: (el) => io.unobserve(el)
+        };
+    }
+
+    // Auto-aplica data-slide-in em cards e elementos principais
+    // IMPORTANTE: Fazer ANTES de inicializar SlideInOnScroll
+    const autoTargets = [
+        '.card:not([data-slide-in])',
+        'section[id] > .container > .row > .col-lg-12 > h2:not([data-slide-in])',
+        'section[id] > .container > .row > .col-lg-12 > .display-4:not([data-slide-in])'
+    ];
+    
+    autoTargets.forEach(sel => {
+        document.querySelectorAll(sel).forEach((el) => {
+            if (!el.hasAttribute('data-slide-in')) {
+                // Cards usam auto-detecção, outros usam fade
+                if (el.classList.contains('card')) {
+                    // Deixa para o autoDetectAlternate processar
+                } else {
+                    el.setAttribute('data-slide-in', 'fade');
+                }
+            }
         });
     });
 
-    document.querySelectorAll('[data-reveal]').forEach(el => revealObserver.observe(el));
+    // Marca rows como containers de stagger
+    document.querySelectorAll('.row').forEach(row => {
+        if (row.querySelectorAll('.card').length > 0) {
+            row.setAttribute('data-slide-stagger', '');
+        }
+    });
 
-    // If already in viewport on load
-    document.querySelectorAll('[data-reveal]').forEach(el => {
-        const rect = el.getBoundingClientRect();
-        const inView = rect.top < window.innerHeight && rect.bottom >= 0;
-        if (inView) el.classList.add('is-visible');
+    // Aguarda um frame para garantir que todos os atributos foram aplicados
+    requestAnimationFrame(() => {
+        // Inicializa o componente após atributos aplicados
+        SlideInOnScroll();
     });
 });
 
