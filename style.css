@@ -1,0 +1,360 @@
+/* Custom Styles for RDMG Engenharia Landing Page */
+
+:root {
+    --primary-color: #0d6efd;
+    --secondary-color: #6c757d;
+    --dark-color: #212529;
+}
+
+/* Smooth Scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Header Styles */
+header {
+    z-index: 1000;
+    transition: all 0.3s ease;
+    background-color: #212529 !important;
+}
+
+header nav {
+    min-height: 80px;
+}
+
+.logo-header {
+    max-height: 60px;
+    width: auto;
+}
+
+.navbar-brand {
+    font-size: 1.1rem;
+    white-space: nowrap;
+}
+
+.navbar-brand span {
+    font-size: 0.9rem;
+}
+
+@media (min-width: 992px) {
+    .navbar-brand span {
+        font-size: 1rem;
+    }
+}
+
+.navbar-nav-container {
+    display: flex !important;
+    flex-grow: 1;
+    justify-content: flex-end;
+}
+
+.navbar-nav {
+    display: flex !important;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.navbar-nav .nav-link {
+    color: #fff !important;
+    font-weight: 500;
+    margin: 0 5px;
+    transition: all 0.3s ease;
+    position: relative;
+    cursor: pointer;
+    padding: 8px 12px !important;
+    border-radius: 5px;
+    white-space: nowrap;
+    display: flex !important;
+    align-items: center;
+}
+
+.navbar-nav .nav-link i {
+    color: #fff !important;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #fff !important;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.navbar-nav .nav-link:hover i {
+    color: #fff !important;
+    transform: scale(1.1);
+}
+
+.navbar-nav .nav-link.active {
+    color: #fff !important;
+    background-color: rgba(255, 255, 255, 0.2);
+    font-weight: 600;
+}
+
+.navbar-nav .nav-link.active i {
+    color: #fff !important;
+}
+
+.navbar-nav .nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 5px;
+    left: 50%;
+    background-color: #fff;
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.navbar-nav .nav-link:hover::after,
+.navbar-nav .nav-link.active::after {
+    width: 60%;
+}
+
+@media (max-width: 991px) {
+    .navbar-nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 5px;
+    }
+    
+    .navbar-nav .nav-link {
+        padding: 6px 10px !important;
+        margin: 2px;
+        font-size: 0.85rem;
+    }
+    
+    .navbar-nav .nav-link span {
+        display: none;
+    }
+    
+    .navbar-nav .nav-link i {
+        margin-right: 0;
+        font-size: 1rem;
+    }
+    
+    .navbar-brand span.d-md-none {
+        display: none !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .navbar-nav {
+        gap: 3px;
+    }
+    
+    .navbar-nav .nav-link {
+        padding: 5px 8px !important;
+        font-size: 0.75rem;
+    }
+    
+    .logo-header {
+        max-height: 50px;
+    }
+}
+
+/* Hero Section */
+.hero-section {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                      url('https://images.unsplash.com/photo-1581091870599-3c0d2d0b3b8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    position: relative;
+    min-height: 100vh;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.cta-button {
+    padding: 12px 40px;
+    font-size: 1.1rem;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3);
+}
+
+.cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(13, 110, 253, 0.4);
+}
+
+/* Section Spacing */
+section {
+    padding: 80px 0;
+}
+
+/* Cards */
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 10px;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
+}
+
+.service-card {
+    min-height: 300px;
+}
+
+/* Tabs */
+.nav-tabs {
+    border-bottom: 2px solid #dee2e6;
+}
+
+.nav-tabs .nav-link {
+    color: var(--secondary-color);
+    border: none;
+    border-bottom: 3px solid transparent;
+    padding: 15px 20px;
+    transition: all 0.3s ease;
+}
+
+.nav-tabs .nav-link:hover {
+    border-bottom-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.nav-tabs .nav-link.active {
+    color: var(--primary-color);
+    background-color: transparent;
+    border-bottom-color: var(--primary-color);
+    font-weight: 600;
+}
+
+/* Form Styles */
+.form-control {
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+    padding: 12px 15px;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+.form-label {
+    font-weight: 600;
+    color: var(--dark-color);
+    margin-bottom: 8px;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: 8px;
+    padding: 12px 30px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #0b5ed7;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3);
+}
+
+/* Contact Info */
+.contact-info i {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.contact-info a {
+    color: var(--dark-color);
+    transition: color 0.3s ease;
+}
+
+.contact-info a:hover {
+    color: var(--primary-color);
+}
+
+/* Footer */
+footer {
+    background-color: #1a1a1a !important;
+}
+
+.logo-footer {
+    filter: brightness(0) invert(1);
+    max-height: 60px;
+    width: auto;
+}
+
+footer h5 {
+    color: #fff;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+footer .text-muted {
+    color: #adb5bd !important;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .hero-section {
+        background-attachment: scroll;
+    }
+    
+    .display-3 {
+        font-size: 2rem;
+    }
+    
+    .display-4 {
+        font-size: 2rem;
+    }
+    
+    section {
+        padding: 60px 0;
+    }
+    
+    .nav-tabs .nav-link {
+        font-size: 0.9rem;
+        padding: 10px 15px;
+    }
+    
+    .service-card {
+        min-height: auto;
+    }
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* Icon Styles */
+.fa-3x, .fa-4x {
+    color: var(--primary-color);
+}
+
+/* Background Colors */
+.bg-light {
+    background-color: #f8f9fa !important;
+}
+
